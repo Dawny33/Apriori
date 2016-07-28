@@ -15,13 +15,24 @@ from optparse import OptionParser
 
 
 def subsets(arr):
-    """ Returns non empty subsets of arr"""
+
+    """ 
+    Returns non empty subsets of arr
+
+    enumerate(arr)       <= returns the following format "<index>, <array element>"
+    combinations(arr, i) <= returns all i-length combinations of the array.
+    chain(arr)           <= unpackas a list of lists
+
+    """
     return chain(*[combinations(arr, i + 1) for i, a in enumerate(arr)])
 
 
 def returnItemsWithMinSupport(itemSet, transactionList, minSupport, freqSet):
         """calculates the support for items in the itemSet and returns a subset
-       of the itemSet each of whose elements satisfies the minimum support"""
+       of the itemSet each of whose elements satisfies the minimum support
+
+
+       """
         _itemSet = set()
         localSet = defaultdict(int)
 
@@ -46,6 +57,19 @@ def joinSet(itemSet, length):
 
 
 def getItemSetTransactionList(data_iterator):
+
+    """
+    
+    Takes data from dataFromFile() and returns list of items and a list of transactions
+    and generate two seperate sets of items and transactions.
+
+    The item list would be: 
+    ([frozenset(['apple']), frozenset(['beer']), frozenset(['chicken']), etc
+
+    The transaction list would be:
+    frozenset(['beer', 'rice', 'apple', 'chicken']), frozenset(['beer', 'rice', 'apple']), etc
+
+    """
     transactionList = list()
     itemSet = set()
     for record in data_iterator:
@@ -124,7 +148,12 @@ def printResults(items, rules):
 
 
 def dataFromFile(fname):
-        """Function which reads from the file and yields a generator"""
+        """
+        Function which reads from the file and yields a generator of frozen sets of each line in the csv
+
+        The first line of tesco.csv file returns the following output:
+        frozenset(['beer', 'rice', 'apple', 'chicken'])
+        """
         file_iter = open(fname, 'rU')
         for line in file_iter:
                 line = line.strip().rstrip(',')                         # Remove trailing comma
